@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/register.scss";
+import "../styles/login.scss";
 import { Link, useNavigate } from "react-router";
 import Input from "../components/Input";
 import InputPassword from "../components/InputPassword";

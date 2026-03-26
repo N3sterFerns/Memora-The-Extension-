@@ -11,7 +11,10 @@ const saveSchema = mongoose.Schema(
     description: {
       type: String,
     },
-    image: String,
+    image: {
+        type: String,
+        default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcCBHgbS23kyBw2r8Pquu19UtKZnrZmFUx1g&s"
+    },
     tags: [String],
     type: String,
     user: {

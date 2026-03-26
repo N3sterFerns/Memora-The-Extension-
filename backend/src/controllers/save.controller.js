@@ -1,4 +1,5 @@
 import { saveModel } from "../models/save.model.js";
+import { generateTags } from "../services/aiservice.js";
 import { extractMetadata } from "../services/metadataService.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -9,16 +10,17 @@ const saveContent = asyncHandler(async (req, res)=>{
     const userId = req.user._id;
     
     const meta = await extractMetadata(url)
+    
 
-    const tags = title.toLowerCase().split(" ").slice(0, 3);
+    const tags = await generateTags(`${meta.title} ${meta.description}`)
 
     const newSave = await saveModel.create({
         url: url,
         title: meta.title,
-        tags,
+        tags: tags,
         type: url.includes("youtube") ? "video": "article",
         description: meta.description,
-        image: meta.image,
+        image: meta.image || undefined,
         user:userId 
     })
 
