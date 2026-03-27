@@ -18,7 +18,7 @@ function setLoading(isLoading) {
 
 // Open dashboard
 openDashboardBtn.addEventListener("click", () => {
-  chrome.tabs.create({ url: "http://localhost:3000" }); // change to prod later
+  chrome.tabs.create({ url: "https://memora-wine.vercel.app/dashboard" }); // change to prod later
 });
 
 saveBtn.addEventListener("click", async () => {
@@ -41,7 +41,7 @@ saveBtn.addEventListener("click", async () => {
     }
 
     try {
-      const res = await fetch("http://localhost:4000/api/save", {
+      const res = await fetch("https://memora-backend-6z7o.onrender.com/api/save", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
