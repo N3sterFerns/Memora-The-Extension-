@@ -21,40 +21,10 @@
 // };
 
 import axios from "axios";
-import * as cheerio from "cheerio";
-
-// ⏱ delay helper
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
-// 🔁 retry logic for 429
-const fetchWithRetry = async (url, retries = 3) => {
-  try {
-    await delay(Math.random() * 2000); // random delay
-
-    return await axios.get(url, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.9",
-        Connection: "keep-alive",
-      },
-      timeout: 10000,
-    });
-  } catch (err) {
-    if (err.response?.status === 429 && retries > 0) {
-      console.log("⚠️ Rate limited. Retrying...");
-      await delay(2000);
-      return fetchWithRetry(url, retries - 1);
-    }
-    throw err;
-  }
-};
 
 export const extractMetadata = async (url) => {
   try {
-    // 🎥 Special case: YouTube thumbnail
+    // 🎥 Handle YouTube separately (faster & reliable)
     if (url.includes("youtube.com") || url.includes("youtu.be")) {
       const videoId = url.split("v=")[1]?.split("&")[0];
       if (videoId) {
@@ -66,48 +36,30 @@ export const extractMetadata = async (url) => {
       }
     }
 
-    const { data } = await fetchWithRetry(url);
+    // 🔥 Call Microlink API
+    const response = await axios.get("https://api.microlink.io", {
+      params: {
+        url: url,
+      },
+      timeout: 10000,
+    });
 
-    const $ = cheerio.load(data);
+    const meta = response.data.data;
 
-    const title =
-      $("title").text() ||
-      $('meta[property="og:title"]').attr("content") ||
-      url;
-
-    const description =
-      $('meta[name="description"]').attr("content") ||
-      $('meta[property="og:description"]').attr("content") ||
-      "";
-
-    // 🖼 image extraction with fallbacks
-    let image =
-      $('meta[property="og:image"]').attr("content") ||
-      $('meta[name="twitter:image"]').attr("content") ||
-      $("img").first().attr("src") ||
-      "";
-
-    // 🔧 fix relative URLs
-    if (image && !image.startsWith("http")) {
-      try {
-        image = new URL(image, url).href;
-      } catch {
-        image = "";
-      }
-    }
-
-    // 🛟 fallback if still no image
-    if (!image) {
-      image = `https://www.google.com/s2/favicons?sz=128&domain_url=${url}`;
-    }
+    const title = meta?.title || url;
+    const description = meta?.description || "";
+    const image =
+      meta?.image?.url ||
+      meta?.logo?.url || // fallback logo
+      `https://www.google.com/s2/favicons?sz=128&domain_url=${url}`;
 
     console.log("✅ META:", { title, description, image });
 
     return { title, description, image };
   } catch (err) {
-    console.error("❌ SCRAPE ERROR:", err.message);
+    console.error("❌ Microlink Error:", err.message);
 
-    // 🛟 final fallback (NEVER return empty)
+    // 🛟 fallback (never break UI)
     return {
       title: url,
       description: "",
