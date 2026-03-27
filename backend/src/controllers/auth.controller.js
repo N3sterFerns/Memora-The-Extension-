@@ -1,73 +1,82 @@
 import { userModel } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
+const register = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
-const register = asyncHandler(async (req, res)=>{
+  const userExist = await userModel.findOne({ email: email });
 
-    const {email, password} = req.body;
+  if (userExist) {
+    return res.status(200).json({ message: "User Already Exists" });
+  }
 
-    const userExist = await userModel.findOne({email: email})
+  const user = await userModel.create({
+    email,
+    password,
+  });
 
-    if(userExist){
-        return res.status(200).json({message: "User Already Exists"})
-    }
-    
+  const token = await user.generateToken(user._id);
 
-    const user = await userModel.create({
-        email,
-        password
-    })
+  const userObj = user.toObject();
+  delete userObj.password;
 
-    
-    const token = await user.generateToken(user._id)
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    maxAge: 3 * 24 * 60 * 60 * 1000,
+  });
 
-    const userObj = user.toObject();
-    delete userObj.password;
-    
-    res.cookie("token", token)
+  return res
+    .status(201)
+    .json({ user: userObj, message: "User Created Successfully" });
+});
 
-    return res.status(201).json({user: userObj, message: "User Created Successfully"})
-})
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
+  const userExist = await userModel
+    .findOne({ email: email })
+    .select("+password");
 
-const login = asyncHandler(async (req, res)=>{
+  if (!userExist) {
+    return res.status(404).json({ message: "Incorrect Email or Password" });
+  }
 
-    const {email, password} = req.body;
+  const isCorrectPassword = await userExist.comparePassword(password);
 
-    const userExist = await userModel.findOne({email: email}).select("+password")
+  if (!isCorrectPassword) {
+    return res.status(401).json({ message: "Incorrect Email or Password" });
+  }
 
-    if(!userExist){
-        return res.status(404).json({message: "Incorrect Email or Password"})
-    }
-    
-    const isCorrectPassword = await userExist.comparePassword(password)
-    
-    if(!isCorrectPassword){
-        return res.status(401).json({message: "Incorrect Email or Password"})
-    }
+  const userObj = userExist.toObject();
+  delete userObj.password;
 
-    const userObj = userExist.toObject();
-    delete userObj.password;
+  const token = await userExist.generateToken(userExist._id);
 
-    const token = await userExist.generateToken(userExist._id)
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    maxAge: 3 * 24 * 60 * 60 * 1000,
+  });
 
-    res.cookie("token", token)
+  return res
+    .status(200)
+    .json({ user: userObj, message: "User Fetched Successfully", token });
+});
 
-    return res.status(200).json({user: userObj, message: "User Fetched Successfully", token})
-})
+const getMe = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const userExist = await userModel.findById(userId);
 
+  if (!userExist) {
+    return res.status(404).json({ message: "User Not found" });
+  }
 
-const getMe = asyncHandler(async (req, res)=>{
+  return res
+    .status(200)
+    .json({ user: userExist, message: "User Fetched Successfully" });
+});
 
-    const userId = req.user._id;
-    const userExist = await userModel.findById(userId)
-
-    if(!userExist){
-        return res.status(404).json({message: "User Not found"})
-    }
-    
-    return res.status(200).json({user: userExist, message: "User Fetched Successfully"})
-})
-
-
-export {register, login, getMe}
+export { register, login, getMe };
