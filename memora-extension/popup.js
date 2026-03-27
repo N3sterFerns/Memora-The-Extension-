@@ -3,6 +3,9 @@ const statusDiv = document.getElementById("status");
 const dashboardContainer = document.getElementById("dashboardContainer");
 const openDashboardBtn = document.getElementById("openDashboard");
 
+const pageTitleDiv = document.getElementById("pageTitle");
+const pageUrlDiv = document.getElementById("pageUrl");
+
 let isSaving = false;
 
 function showStatus(message, type) {
@@ -18,7 +21,7 @@ function setLoading(isLoading) {
 
 // Open dashboard
 openDashboardBtn.addEventListener("click", () => {
-  chrome.tabs.create({ url: "https://memora-wine.vercel.app/dashboard" }); // change to prod later
+  chrome.tabs.create({ url: "http://localhost:5173/dashboard" }); 
 });
 
 saveBtn.addEventListener("click", async () => {
@@ -41,7 +44,7 @@ saveBtn.addEventListener("click", async () => {
     }
 
     try {
-      const res = await fetch("https://memora-backend-6z7o.onrender.com/api/save", {
+      const res = await fetch("http://localhost:4000/api/save", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,16 +55,25 @@ saveBtn.addEventListener("click", async () => {
 
       if (res.ok) {
         showStatus("Saved successfully ✓", "success");
-
         dashboardContainer.classList.remove("hidden");
+
+        pageTitleDiv.textContent = title;
+        pageUrlDiv.textContent = url;
+
+        pageTitleDiv.parentElement.style.display = "block";
+
+        // Hide it after 30 seconds
+        setTimeout(() => {
+          pageTitleDiv.parentElement.style.display = "none";
+        }, 30000);
       } else {
         showStatus("Failed to save", "error");
       }
-    } catch {
+    } catch (err) {
+      console.error(err);
       showStatus("Network error", "error");
-    }finally{
-        setLoading(false);
+    } finally {
+      setLoading(false);
     }
-
   });
 });

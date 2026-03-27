@@ -1,0 +1,310 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>The Curator - Content Detail</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-dim": "#4e0309",
+              "on-tertiary-container": "#4f4964",
+              "surface-container-highest": "#e4e2e5",
+              "primary-fixed-dim": "#c9d3ff",
+              outline: "#7b7a7d",
+              "on-secondary-fixed": "#3f3f43",
+              "on-primary": "#f8f7ff",
+              "surface-container": "#f0edef",
+              "on-secondary-container": "#515155",
+              "on-error": "#fff7f6",
+              "surface-container-low": "#f6f3f4",
+              "outline-variant": "#b3b1b4",
+              "secondary-fixed": "#e4e2e6",
+              "on-surface-variant": "#5f5f61",
+              "inverse-on-surface": "#9e9c9d",
+              "inverse-surface": "#0e0e0f",
+              "surface-bright": "#fcf8f9",
+              "primary-fixed": "#dce1ff",
+              "error-container": "#fe8983",
+              "on-primary-container": "#334c9d",
+              "on-primary-fixed": "#1d3989",
+              "on-tertiary-fixed": "#3c3650",
+              "on-primary-fixed-variant": "#3d57a7",
+              primary: "#4059aa",
+              "surface-container-lowest": "#ffffff",
+              surface: "#fcf8f9",
+              secondary: "#5f5f62",
+              "tertiary-container": "#dfd5f7",
+              "tertiary-fixed-dim": "#d0c7e8",
+              "on-secondary": "#faf8fc",
+              "tertiary-fixed": "#dfd5f7",
+              "primary-container": "#dce1ff",
+              background: "#fcf8f9",
+              "surface-container-high": "#eae7ea",
+              "on-background": "#323235",
+              "on-surface": "#323235",
+              "surface-variant": "#e4e2e5",
+              "secondary-dim": "#535356",
+              "secondary-fixed-dim": "#d5d3d8",
+              "on-error-container": "#752121",
+              "surface-dim": "#dbd9dd",
+              "on-secondary-fixed-variant": "#5b5b5f",
+              "primary-dim": "#334d9d",
+              "tertiary-dim": "#564f6b",
+              "surface-tint": "#4059aa",
+              error: "#9f403d",
+              tertiary: "#625b77",
+              "inverse-primary": "#8fa7fe",
+              "secondary-container": "#e4e2e6",
+              "on-tertiary": "#fdf7ff",
+              "on-tertiary-fixed-variant": "#59526e",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container"
+  >
+
+
+    <!-- Main Canvas -->
+    <main class="lg:pl-64 pt-16 min-h-screen">
+      <div class="max-w-5xl mx-auto px-8 py-12">
+        <!-- Breadcrumbs & Actions -->
+        <div class="flex justify-between items-start mb-8">
+          <div class="space-y-1">
+            <h1
+              class="text-4xl md:text-5xl font-headline font-extrabold text-on-surface tracking-tight leading-[1.1]"
+            >
+              The Art of Intentional Living in the Digital Age
+            </h1>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <button
+              class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/20 text-on-surface hover:bg-surface-container-low transition-colors font-label text-sm shadow-sm"
+            >
+              <span class="material-symbols-outlined text-sm">share</span>
+              Share
+            </button>
+            <button
+              class="p-2 rounded-lg text-error hover:bg-error-container/10 transition-colors"
+            >
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </div>
+        <!-- Metadata Strip -->
+        <div
+          class="flex flex-wrap items-center gap-x-8 gap-y-4 py-6 border-y border-outline-variant/10 mb-12"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden"
+            >
+              <img
+                alt="Alex Rivers avatar"
+                class="w-full h-full object-cover"
+                data-alt="headshot of a stylish writer with glasses against a soft neutral studio background"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbPlfVVRP68EDoOnYbtIRT1hSEhjbi7PBEkpjBWQJDlj4mfV3b10DmcG0shQkysageUeLiPxjQfI9BjMQ1C9r6WRxFSccW78O5Eh3_JmSSzZNMWno6rUVE6iuDsiOP-tMxfRo6noCbQyHol8EY5AIpYmc_8EeAkQLyxsgN5olPtfPn9XuJ7p6QiGeQXBbH18_XHBnlta0FuvGaPcPEVfzApYqTtBZ9GBCWAOw6SHU9HK-Q2Nyh8Z7XfKoVPrtKTC4UmoFEgUNMLD8"
+              />
+            </div>
+            <div>
+              <p class="font-label text-xs text-on-surface-variant">Author</p>
+              <p class="font-body text-sm font-semibold text-on-surface">
+                Alex Rivers
+              </p>
+            </div>
+          </div>
+          <div>
+            <p class="font-label text-xs text-on-surface-variant">Published</p>
+            <p class="font-body text-sm font-semibold text-on-surface">
+              Oct 24, 2023
+            </p>
+          </div>
+          <div>
+            <p class="font-label text-xs text-on-surface-variant">Category</p>
+            <div class="flex gap-2 mt-0.5">
+              <span
+                class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label text-[10px] font-bold uppercase tracking-wider"
+                >Minimalism</span
+              >
+              <span
+                class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label text-[10px] font-bold uppercase tracking-wider"
+                >Lifestyle</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Content Area -->
+        <article class="space-y-10">
+          <!-- Featured Image -->
+          <div
+            class="aspect-[21/9] rounded-2xl overflow-hidden bg-surface-container shadow-lg"
+          >
+            <img
+              alt="Minimalist Workspace"
+              class="w-full h-full object-cover"
+              data-alt="a bright and airy minimalist home office with a single wooden desk, a sleek laptop, and a large window overlooking a misty morning forest"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuS1qhLaBhhkiiw_R52vWIZm_twq8DVBTayZ4QTTXt6hV1k3f5ETxF_qHpNR_wHFLHyOOlWBPMvNCZzNU_clT0tM7Y4V3P1luyZg-0eT11BCNiIAu8GocenkMDP0RpAru4CCyKHuOoaj8u2AL_JM-f3DuVhFPmMGXL-lW-we8bzsrjb67cSUwxO-eHz2wEC20_L5gG6P6xyzveXIklxOTJZpgRaXAe02tf_dxpeUl6xJ8tM9IZ9CUsI8-79sgpb0MfL8F3MUDVL90"
+            />
+          </div>
+          <!-- Text Content -->
+          <div class="max-w-3xl mx-auto space-y-8">
+            <div
+              class="space-y-6 text-on-surface text-lg leading-relaxed antialiased"
+            >
+              <p>
+                In an era where our attention is the most valuable currency,
+                reclaiming the sanctity of our mental space has become an act of
+                rebellion. We are constantly barraged by notifications, infinite
+                scrolls, and the relentless hum of the digital machine. But what
+                does it truly mean to live intentionally in such a landscape?
+              </p>
+
+            </div>
+          </div>
+        </article>
+
+        <!-- Related Items Section -->
+        <section class="mt-24">
+          <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-headline font-bold text-on-surface">
+              Related List
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Related Card 1 -->
+            <div class="group cursor-pointer">
+              <div
+                class="aspect-video rounded-xl overflow-hidden bg-surface-container-low mb-4 relative"
+              >
+                <img
+                  alt="Deep Work"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  data-alt="abstract architectural geometry with clean lines and soft shadows, symbolizing focus and structure in a modern environment"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXDAlcaj6_pnR8Feml-YuZx6pAYHpGfY-RMEONbtAt19MhfVqN_3ts3dfojCpB1SSVfpr_1p6f8ftE-1_Hq8PvHjYb_us-Ce-t5hTrlVPczWPiEdiitl9GzSDVpMq-CxyCc7-wDstMuDieRU1hz1f4fWk_Xp8hHzaMEOHNwjWlbOPjb-Ebk8HI4Nu1cyx_GX7jzVUCR7ptKkRJVW4pJZ2p1cXiZLm5tRNiWUAtQF2ruFqRkDwG9vtkTeMxEnjbXybA_XiDH6PsIb4"
+                />
+                <div
+                  class="absolute top-3 right-3 px-2 py-1 bg-surface-container-lowest/80 backdrop-blur rounded text-[10px] font-bold uppercase tracking-wider text-on-surface"
+                >
+                  Strategy
+                </div>
+              </div>
+              <h3
+                class="font-headline font-bold text-lg text-on-surface group-hover:text-primary transition-colors leading-snug mb-2"
+              >
+                The Science of Deep Focus and Productivity
+              </h3>
+              <div
+                class="flex items-center gap-2 text-on-surface-variant text-xs font-label"
+              >
+                <span>Maria Chen</span>
+                <span>•</span>
+                <span>5 min read</span>
+              </div>
+            </div>
+            <!-- Related Card 2 -->
+            <div class="group cursor-pointer">
+              <div
+                class="aspect-video rounded-xl overflow-hidden bg-surface-container-low mb-4 relative"
+              >
+                <img
+                  alt="Design Systems"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  data-alt="overhead shot of a designer's desk with aesthetic stationery, a mechanical pencil, and textured paper swatches in neutral tones"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Z4407TVqGke5TjLVBBLBBOUBH77HsGptg9xGyqaCxHXiA3gaQ6S35yx3E-3HmzvLU2anwfv2crl0yCPWnBCqE8VKtlYpTw4tzyBGMUTtd1qifHTr92b3D19WKdLpqBtfYK61eHXNh-pOO4n97RCCn0vP0AphY7dlDkwGITxNfXmjIn6txzAxw6v3ZrgLjTQ7jlKV7qomOTLsVMO6j4CjFESl5A_mwaknZkDADd8t-yw_yS0KcAsaRMFRIQosDFJCkIveS70iTcM"
+                />
+                <div
+                  class="absolute top-3 right-3 px-2 py-1 bg-surface-container-lowest/80 backdrop-blur rounded text-[10px] font-bold uppercase tracking-wider text-on-surface"
+                >
+                  Design
+                </div>
+              </div>
+              <h3
+                class="font-headline font-bold text-lg text-on-surface group-hover:text-primary transition-colors leading-snug mb-2"
+              >
+                Why Typography is the Soul of the Web
+              </h3>
+              <div
+                class="flex items-center gap-2 text-on-surface-variant text-xs font-label"
+              >
+                <span>Jameson Holt</span>
+                <span>•</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+            <!-- Related Card 3 -->
+            <div class="group cursor-pointer">
+              <div
+                class="aspect-video rounded-xl overflow-hidden bg-surface-container-low mb-4 relative"
+              >
+                <img
+                  alt="Curation"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  data-alt="close-up of a high-end magazine layout showing elegant photography and sophisticated typography on matte paper"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCre6yzv_qRu4JZmrOG5k7clGay_sOCqOvJ4kUf3mVIqQMRCpuACKZYqA0gHOcZR6szdqyydyfw4TWGJI9oLbFjF3UI03rBdx1iarkHnA4UI9btrfgpXL7mCc92ZjXFyuenHuG2eRZ17v8efP943GEdSHcFschuF_XheE4-p2-7PDN_6t5gTPAmb0ynN3-6l4mfn78Ds3_MX_9x_fRpor7AqPq0lnPpqj9DN7tFwlvNQ47doPLkD3JqMnrPoxuofumOOQNtTAuoi6g"
+                />
+                <div
+                  class="absolute top-3 right-3 px-2 py-1 bg-surface-container-lowest/80 backdrop-blur rounded text-[10px] font-bold uppercase tracking-wider text-on-surface"
+                >
+                  Editorial
+                </div>
+              </div>
+              <h3
+                class="font-headline font-bold text-lg text-on-surface group-hover:text-primary transition-colors leading-snug mb-2"
+              >
+                The Future of Boutique Digital Journals
+              </h3>
+              <div
+                class="flex items-center gap-2 text-on-surface-variant text-xs font-label"
+              >
+                <span>Sarah K.</span>
+                <span>•</span>
+                <span>12 min read</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+  </body>
+</html>

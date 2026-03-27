@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Items from "./Items";
+import { Link } from "react-router";
 
 const ItemsContainer = ({items}) => {
 
@@ -8,7 +9,7 @@ const ItemsContainer = ({items}) => {
   return (
     <div class="content-section__list">
         {items?.map((item)=>(
-            <Items key={item._id} item={item} />
+            <Link to={`/dashboard/save/${item._id}`} state={item}><Items key={item._id} item={item} /></Link>
         ))}
     </div>
   );

@@ -37,4 +37,17 @@ const savedItems = asyncHandler(async (req, res)=>{
 })
 
 
-export {saveContent, savedItems}
+const getRelatedItems = asyncHandler(async (req, res)=>{
+    const itemId = req.params.id
+    const item = await saveModel.findById(itemId)
+    const relatedItems = await saveModel.find({
+        user: req.user._id,
+        _id: {$ne: item._id},
+        tags: {$in: item.tags}
+    }).limit(5)
+
+    return res.status(200).json({relatedItems: relatedItems})
+})
+
+
+export {saveContent, savedItems, getRelatedItems}

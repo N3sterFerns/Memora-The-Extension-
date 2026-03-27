@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
-import { setError, setLoading, setSaves } from "../save.slice"
-import { getSavedItems } from "../services/save.service"
+import { clearRelatedItem, setError, setLoading, setRelatedItem, setSaves } from "../save.slice"
+import { getRelatedItems, getSavedItems } from "../services/save.service"
 
 
 export const useSave = ()=>{
@@ -18,7 +18,22 @@ export const useSave = ()=>{
             dispatch(setLoading(false))
         }
     }
+    
+    const getAllRelatedItems = async (itemId)=>{
+        try {
+           dispatch(clearRelatedItem())
+           dispatch(setLoading(true))
+           const res = await getRelatedItems(itemId)
+           dispatch(setRelatedItem(res.relatedItems))
+           
+        } catch (error) {
+            dispatch(setError(error))
+        }finally{
+            dispatch(setLoading(false))
+        }
+
+    }
 
 
-    return {getAllSavedItems}
+    return {getAllSavedItems, getAllRelatedItems}
 }

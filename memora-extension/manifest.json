@@ -8,7 +8,7 @@
     "service_worker": "background.js"
   },
   "externally_connectable": {
-    "matches": ["https://memora-wine.vercel.app/*"] 
+    "matches": ["http://localhost:5173/*"] 
   },
   "action": {
     "default_popup": "popup.html"

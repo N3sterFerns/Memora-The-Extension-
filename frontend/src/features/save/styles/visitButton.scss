@@ -1,0 +1,32 @@
+.visit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #2d2d2d;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  cursor: pointer;
+
+  .icon {
+    display: flex;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &:hover {
+    background: #444;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
