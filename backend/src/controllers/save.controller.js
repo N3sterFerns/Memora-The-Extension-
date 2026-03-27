@@ -12,7 +12,9 @@ const saveContent = asyncHandler(async (req, res)=>{
     const meta = await extractMetadata(url)
     
 
+    console.log(meta)
     const tags = await generateTags(`${meta.title} ${meta.description}`)
+
 
     const newSave = await saveModel.create({
         url: url,
