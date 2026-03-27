@@ -27,14 +27,9 @@ export const useAuth = ()=>{
             dispatch(setUser(res.user));
 
             const token = res.token;
-            console.log(token)
             if(window.chrome){
-                console.log("works")
                 chrome.runtime.sendMessage(import.meta.env.VITE_EXTENSION_ID, 
                     {type: "SET_TOKEN", token},
-                    (res)=>{
-                        console.log("Token sent to extension")
-                    }
                 )
             }
 
