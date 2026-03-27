@@ -25,6 +25,19 @@ export const useAuth = ()=>{
         try {
             const res = await login(userDetails)
             dispatch(setUser(res.user));
+
+            const token = res.token;
+            console.log(token)
+            if(window.chrome){
+                console.log("works")
+                chrome.runtime.sendMessage(import.meta.env.VITE_EXTENSION_ID, 
+                    {type: "SET_TOKEN", token},
+                    (res)=>{
+                        console.log("Token sent to extension")
+                    }
+                )
+            }
+
             toast.success("Logged In Successfully.")
         } catch (error) {
             toast.error(error.response?.data?.msg || "Invalid Credentials")

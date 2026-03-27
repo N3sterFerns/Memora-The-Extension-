@@ -56,6 +56,7 @@ const Login = () => {
               id="email"
               placeholder="Enter Your Email"
               setUserDetails={sethandleLoginDetails}
+              value={handleLoginDetails.email}
             />
 
             {/* Password */}
@@ -74,7 +75,7 @@ const Login = () => {
             </div>
 
             {/* Button */}
-            <button type="submit" className="btn-primary">
+            <button className="btn-primary">
               {loginLoading ? (
                 <svg
                   width={25}

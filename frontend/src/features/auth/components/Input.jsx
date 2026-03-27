@@ -1,6 +1,6 @@
 import React from "react";
 
-const Input = ({type="text", id="email", title="Email", placeholder="email@gmail.com", setUserDetails}) => {
+const Input = ({type="text", id="email", value="", title="Email", placeholder="email@gmail.com", setUserDetails}) => {
 
     const handleUserDetails = (e)=>{
         const val = e.target.value;
@@ -12,7 +12,7 @@ const Input = ({type="text", id="email", title="Email", placeholder="email@gmail
       <label>{title}</label>
       <div className="input-wrapper">
         <span className="icon">📧</span>
-        <input onChange={handleUserDetails} value={setUserDetails.id} placeholder={placeholder} type={type}  />
+        <input onChange={handleUserDetails} value={value} placeholder={placeholder} type={type}  />
       </div>
     </div>
   );

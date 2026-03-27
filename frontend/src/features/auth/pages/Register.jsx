@@ -75,7 +75,7 @@ const Register = () => {
             </div>
 
             {/* Button */}
-            <button type="submit" className="btn-primary">
+            <button className="btn-primary">
               {registerLoading ? (
                 <svg
                   width={25}
