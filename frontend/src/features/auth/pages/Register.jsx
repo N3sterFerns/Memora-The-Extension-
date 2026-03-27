@@ -57,6 +57,7 @@ const Register = () => {
               id="email"
               placeholder="Enter Your Email"
               setUserDetails={setHandleUserDetails}
+              value={handleUserDetails.email}
             />
 
             {/* Password */}
