@@ -23,13 +23,13 @@ const ItemDetails = () => {
 
   return (
     <div className="article-container">
-      <div className="back-btn">
-        <span onClick={()=> navigate("/dashboard")} class="material-symbols-outlined">arrow_back_ios</span>
-      </div>
 
       <div className="header">
         <h1>{currentItem?.title}</h1>
         <div className="actions">
+          <button className="back-btn">
+            <span onClick={()=> navigate("/dashboard")} >Back</span>
+          </button>
           <button className="delete">
             <span className="material-symbols-outlined">delete</span>
           </button>

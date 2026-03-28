@@ -29,42 +29,44 @@
 body {
   background: var(--bg);
   color: var(--text);
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 // ── Container ───────────────────────────────────────────
 .article-container {
   padding-top: 4rem;
   min-height: 100vh;
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 3rem 2rem;
+  // max-width: 80rem;
+  // margin: 0 auto;
+  width: 100%;
+  padding: 3rem 1rem; // mobile-friendly padding
   position: relative;
 
   .back-btn {
-    width: 50px;
-    height: 50px;
+    padding: 0.6rem 0.5rem;
     background-color: rgba(61, 61, 61, 0.445);
     border-radius: 50%;
-    position: absolute;
-    left: 5%;
+
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     cursor: pointer;
+
+    span{
+      font-weight: 600;
+    }
   }
-  
+
   @media (min-width: 1024px) {
     padding-left: 16rem;
-  }
-  
-  @media (max-width: 768px) {
-    .back-btn {
-      left: 5%;
-      top: 0%;
-      width: 45px;
-      height: 45px;
-    }
   }
 
   // Header
@@ -73,11 +75,13 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
 
     h1 {
-      font-size: 2.25rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: var(--text);
+      flex: 1 1 100%;
 
       @media (min-width: 768px) {
         font-size: 3rem;
@@ -87,6 +91,7 @@ body {
     .actions {
       display: flex;
       gap: 0.75rem;
+      margin-top: 1rem;
 
       button {
         display: flex;
@@ -95,6 +100,7 @@ body {
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
         cursor: pointer;
+        font-size: 0.875rem;
 
         &.share {
           background: var(--surface-lowest);
@@ -107,7 +113,8 @@ body {
         }
 
         &.delete {
-          color: var(--error);
+          background-color: var(--error);
+          color: var(--card);
 
           &:hover {
             background: rgba(255, 0, 0, 0.08);
@@ -146,6 +153,7 @@ body {
 
       .tags {
         display: flex;
+        flex-wrap: wrap;
         gap: 0.5rem;
 
         .tag {
@@ -182,6 +190,8 @@ body {
 
         img {
           width: 100%;
+          height: auto;
+          display: block;
           object-fit: cover;
         }
       }
@@ -190,7 +200,7 @@ body {
         font-size: 1.125rem;
         line-height: 1.75rem;
         color: var(--text);
-        
+        word-wrap: break-word; // prevents overflow of long text
       }
     }
   }
@@ -207,9 +217,14 @@ body {
 
     .grid {
       display: grid;
-      gap: 2rem;
+      gap: 1rem;
+      grid-template-columns: 1fr; // mobile single column
 
       @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (min-width: 1024px) {
         grid-template-columns: repeat(3, 1fr);
       }
 
@@ -224,7 +239,9 @@ body {
 
           img {
             width: 100%;
+            height: auto;
             transition: 0.5s;
+            display: block;
           }
 
           &:hover img {
@@ -252,6 +269,7 @@ body {
         h3 {
           font-size: 1.125rem;
           color: var(--text);
+          margin-top: 0.5rem;
 
           &:hover {
             color: var(--primary);
