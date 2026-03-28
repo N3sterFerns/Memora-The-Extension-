@@ -13,11 +13,14 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(cors({
-    origin: [`chrome-extension://${process.env.EXTENSION_ID}`, process.env.FRONTEND_URL],
-    // origin: [`chrome-extension://${process.env.EXTENSION_ID}`, "http://localhost:5173"
-    // ],
-    // credentials: true
-}))
+  origin: function(origin, callback) {
+    if (!origin || origin.startsWith("chrome-extension://")) return callback(null, true);
+
+    if (origin === process.env.FRONTEND_URL) return callback(null, true);
+
+    callback(new Error("Not allowed by CORS"));
+  }
+}));
 
 app.use("/api/auth", authRouter)
 app.use("/api", saveRouter)
