@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "../styles/homepage.scss"
+import "../styles/homepage.scss";
 import { Link } from "react-router";
 
 const Homepage = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
 
-  // Optional: persist + system preference
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved) {
       setDarkMode(saved === "dark");
     } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
       setDarkMode(prefersDark);
     }
   }, []);
@@ -22,7 +24,6 @@ const Homepage = () => {
 
   return (
     <div className={`memora ${darkMode ? "dark" : ""}`}>
-      {/* Navbar */}
       <nav className="navbar">
         <div className="container">
           <div className="left">
@@ -30,11 +31,10 @@ const Homepage = () => {
           </div>
 
           <div className="right">
-            <Link to={"/login"}><button className="cta">Login</button></Link>
-            <button
-              className="login"
-              onClick={() => setDarkMode(!darkMode)}
-            >
+            <Link to={"/login"}>
+              <button className="cta">Login</button>
+            </Link>
+            <button className="login" onClick={() => setDarkMode(!darkMode)}>
               {darkMode ? "Light" : "Dark"}
             </button>
           </div>
@@ -46,45 +46,88 @@ const Homepage = () => {
         <section className="hero">
           <div className="content">
             <h1>
-              Your Digital Archive,{" "}
-              <span className="gradient">Refined.</span>
+              Your Second Brain, <span className="gradient">Automated.</span>
             </h1>
 
             <p>
-              Capture, curate, and collaborate on your best ideas with precision
-              and speed. Transform the chaos of information into a structured
-              gallery of insights.
+              Save anything from the internet articles, videos, tweets, or PDFs
+              and let Memora automatically organize, connect, and resurface your
+              knowledge when you need it most.
             </p>
 
             <div className="buttons">
-              <button className="primary">
-                Download Chrome Extension
+              <a href="/extension/Memora.zip" download>
+                <button className="primary">Download Chrome Extension</button>
+              </a>
+
+              <button className="secondary" onClick={() => setShowGuide(true)}>
+                How it Works
               </button>
             </div>
           </div>
 
           <div className="cards">
             <div className="card">
-              <h3>Instant Curation</h3>
-              <p>Automatically categorize and tag content as you save it.</p>
+              <h3>Smart Saving</h3>
+              <p>
+                Capture any content instantly with one click no manual effort.
+              </p>
             </div>
 
             <div className="card">
-              <h3>Infinite Search</h3>
-              <p>Find anything in seconds with powerful indexing.</p>
+              <h3>AI Organization</h3>
+              <p>Automatically tagged, structured, and grouped using AI.</p>
             </div>
 
             <div className="card">
-              <h3>Semantic Organization</h3>
-              <p>Connect ideas and discover insights effortlessly.</p>
+              <h3>Connected Knowledge</h3>
+              <p>
+                Discover relationships between ideas and resurface insights over
+                time.
+              </p>
             </div>
           </div>
         </section>
       </main>
 
+      {showGuide && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>How to Install Memora Extension</h2>
+
+            <ul>
+              <li>
+                Download the <b>memora.zip</b> file using the button above.
+              </li>
+              <li>Extract (unzip) the file to a folder on your computer.</li>
+              <li>
+                Open Chrome and go to: <b>chrome://extensions</b>
+              </li>
+              <li>
+                Enable <b>Developer Mode</b> (top right).
+              </li>
+              <li>
+                Click <b>"Load unpacked"</b>
+              </li>
+              <li>
+                Select the extracted <b>memora</b> folder (not the zip file).
+              </li>
+              <li>
+                Done! You can now save content directly from your browser.
+              </li>
+              <li>(Optional) Pin the extension for quick access.</li>
+            </ul>
+
+            <button className="close-btn" onClick={() => setShowGuide(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Footer */}
       <footer className="footer">
-        <p>© 2026 Memora. All rights reserved.</p>
+        <p>Memora — Made By Nester Ferns.</p>
         <div className="footer-links">
           <a>Privacy</a>
           <a>Terms</a>

@@ -45,18 +45,6 @@ const DashboardHome = () => {
               />
             </div>
             <div className="search-bar__divider"></div>
-            {/* <div className="search-bar__controls">
-                  <button className="search-bar__dropdown-btn">
-                    <span>All content</span>
-                    <span
-                      className="material-symbols-outlined"
-                      style={{ fontSize: ".875rem" }}
-                    >
-                      expand_more
-                    </span>
-                  </button>
-                  <button className="search-bar__submit">Search</button>
-                </div> */}
           </div>
           <div className="search-bar__tags">
             <span className="search-bar__tags-label">Quick Filters:</span>
