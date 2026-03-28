@@ -21,9 +21,12 @@ const Login = () => {
   const handleLogins = async (e) => {
     e.preventDefault();
     setLoginLoading(true);
-    await handleLogin(handleLoginDetails);
+    const success = await handleLogin(handleLoginDetails);
     setLoginLoading(false);
-    navigate("/dashboard");
+
+    if(success){
+      navigate("/dashboard");
+    }
     sethandleLoginDetails({
       email: "",
       password: "",

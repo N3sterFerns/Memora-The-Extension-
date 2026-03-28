@@ -24,6 +24,9 @@ export const useAuth = ()=>{
     const handleLogin = async (userDetails)=>{
         try {
             const res = await login(userDetails)
+
+            localStorage.setItem("token", res.token);
+
             dispatch(setUser(res.user));
 
             const token = res.token;
@@ -35,7 +38,7 @@ export const useAuth = ()=>{
 
             toast.success("Logged In Successfully.")
         } catch (error) {
-            toast.error(error.response?.data?.msg || "Invalid Credentials")
+            // toast.error(error.response?.data?.msg || "Invalid Credentials")
             dispatch(setError(error.response?.data?.msg || "Login Failed"))
         }finally{
             dispatch(setLoading(false))

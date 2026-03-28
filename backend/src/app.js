@@ -16,7 +16,7 @@ app.use(cors({
     origin: [`chrome-extension://${process.env.EXTENSION_ID}`, process.env.FRONTEND_URL],
     // origin: [`chrome-extension://${process.env.EXTENSION_ID}`, "http://localhost:5173"
     // ],
-    credentials: true
+    // credentials: true
 }))
 
 app.use("/api/auth", authRouter)

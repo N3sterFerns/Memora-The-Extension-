@@ -27,7 +27,7 @@ const register = asyncHandler(async (req, res) => {
     maxAge: 3 * 24 * 60 * 60 * 1000,
   }
 
-  res.cookie("token", token, options);
+  // res.cookie("token", token, options);
 
   return res
     .status(201)
@@ -64,7 +64,7 @@ const login = asyncHandler(async (req, res) => {
     maxAge: 3 * 24 * 60 * 60 * 1000,
   }
 
-  res.cookie("token", token, options);
+  // res.cookie("token", token, options);
 
   return res
     .status(200)
