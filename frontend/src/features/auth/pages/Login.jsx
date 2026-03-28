@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import "../styles/login.scss";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import Input from "../components/Input";
 import InputPassword from "../components/InputPassword";
 import { useAuth } from "../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 const Login = () => {
   const [loginLoading, setLoginLoading] = useState(false);
+  const user = useSelector((state)=> state.auth.user)
 
   const [handleLoginDetails, sethandleLoginDetails] = useState({
     email: "",
@@ -27,6 +29,11 @@ const Login = () => {
       password: "",
     });
   };
+
+  if(user){
+    return <Navigate to={"/dashboard"} replace/>
+  }
+
   return (
     <div className="login-con">
       <div className="auth-container">
@@ -39,15 +46,12 @@ const Login = () => {
             </p>
           </div>
 
-          <div>
-            <p>✨ 2,400+ creators joined</p>
-          </div>
         </div>
 
         {/* RIGHT PANEL */}
         <div className="right-panel">
           <h3>Login Account</h3>
-          <p>Start your journey in seconds 🚀</p>
+          <p>Start your journey in seconds </p>
 
           <form onSubmit={handleLogins} className="form">
             {/* Email */}
