@@ -12,11 +12,15 @@ const saveSchema = mongoose.Schema(
       type: String,
     },
     image: {
-        type: String,
-        default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcCBHgbS23kyBw2r8Pquu19UtKZnrZmFUx1g&s"
+      type: String,
+      default:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcCBHgbS23kyBw2r8Pquu19UtKZnrZmFUx1g&s",
     },
     tags: [String],
     type: String,
+    embedding: {
+      type: [Number]
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
