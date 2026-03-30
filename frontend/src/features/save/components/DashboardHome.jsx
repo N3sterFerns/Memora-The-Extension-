@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useSave } from "../hooks/useSave";
 import ItemsContainer from "../components/ItemsContainer";
+import Rediscover from "./Rediscover";
+
 
 const DashboardHome = () => {
   const savedItems = useSelector((state) => state.save.items);
@@ -11,7 +13,6 @@ const DashboardHome = () => {
   const filteredItems = savedItems
     .filter((item) => {
       const query = searchQuery.toLowerCase();
-
       return (
         item.title?.toLowerCase().includes(query) ||
         item.description?.toLowerCase().includes(query) ||
@@ -22,8 +23,11 @@ const DashboardHome = () => {
       if (filter === "all") return true;
       return item.type === filter;
     });
+
   return (
     <main className="main">
+
+
       <div className="main__hero">
         <h1>All Items</h1>
         <p>
@@ -70,21 +74,24 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      <div class="content-section">
-        <div class="content-section__header">
-          <div class="content-section__header-left">
+      <Rediscover/>
+
+      <div className="content-section">
+        <div className="content-section__header">
+          <div className="content-section__header-left">
             <h2>Recent Saved</h2>
-            <span class="badge">12 New</span>
+            <span className="badge">12 New</span>
           </div>
-          <div class="content-section__header-views">
-            <button class="active">
-              <span class="material-symbols-outlined">list</span>
+          <div className="content-section__header-views">
+            <button className="active">
+              <span className="material-symbols-outlined">list</span>
             </button>
           </div>
         </div>
-
         <ItemsContainer items={filteredItems} />
       </div>
+
+      
 
       <div className="pagination">
         <button className="pagination__btn pagination__btn--nav">

@@ -28,3 +28,9 @@ export const getRelatedItems = async (id)=>{
     const res = await axiosInstance.get(`/api/save/${id}`)
     return res.data;
 }
+
+
+export const getSmartResurfaceItems = async ()=>{
+    const res = await axiosInstance.get("/api/save/smart-resurface")
+    return res.data;
+}

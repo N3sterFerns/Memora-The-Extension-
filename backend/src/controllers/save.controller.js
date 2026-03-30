@@ -4,6 +4,7 @@ import { generateEmbeddings } from "../services/embeddingService.js";
 import { extractMetadata } from "../services/metadataService.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { index } from "../config/pineCone.js";
+import mongoose from "mongoose";
 
 const saveContent = asyncHandler(async (req, res) => {
   const { url, title } = req.body;
@@ -11,7 +12,7 @@ const saveContent = asyncHandler(async (req, res) => {
 
   const meta = await extractMetadata(url);
 
-    const text = `${meta.title} ${meta.description}`;
+  const text = `${meta.title} ${meta.description}`;
 
   const tags = await generateTags(text);
 
@@ -69,7 +70,6 @@ const getRelatedItems = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "Item not Found" });
   }
 
-
   const result = await index.namespace(userId.toString()).query({
     vector: item.embedding,
     topK: 5,
@@ -92,4 +92,100 @@ const getRelatedItems = asyncHandler(async (req, res) => {
   return res.status(200).json({ relatedItems: relatedItems });
 });
 
-export { saveContent, savedItems, getRelatedItems };
+const checkSimilarAI = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const { title, url } = req.body;
+
+  if (!title) {
+    return res.status(400).json({ message: "Title required" });
+  }
+
+  const textDataForEmbedding = `
+      Title: ${title}
+      URL: ${url}
+    `;
+
+  const embedding = await generateEmbeddings(textDataForEmbedding);
+
+  if (!embedding || embedding.length === 0) {
+    return res.status(400).json({ message: "Embedding failed" });
+  }
+
+  const result = await index.namespace(userId.toString()).query({
+    vector: Array.from(embedding).map(Number),
+    topK: 5,
+    includeMetadata: true,
+  });
+
+  const matches = result.matches
+    .filter((match) => match.score > 0.75)
+    .map((match) => ({
+      id: match.id,
+      title: match.metadata.title,
+      url: match.metadata.url,
+      score: match.score,
+    }));
+
+  return res.status(200).json({
+    matches: matches[0],
+    isSimilar: matches.length > 0,
+  });
+});
+
+const getResurfaceItems = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  const latestItem = await saveModel
+    .findOne({ user: userId })
+    .sort({ created: -1 });
+
+
+  if (!latestItem || !latestItem.embedding) {
+    return res.status(200).json({ items: [] });
+  }
+
+  const result = await index.namespace(userId.toString()).query({
+    vector: latestItem.embedding,
+    topK: 10,
+    includeMetadata: true,
+  });
+
+  const ids = result.matches
+    .filter((m) => m.id !== latestItem._id.toString() && m.score > 0.7)
+    .map((m) => m.id);
+
+  const items = await saveModel.find({
+    _id: {$in: ids},
+    user: userId
+  })
+
+  const ordered = ids.map((id)=> items.find((i)=> i._id.toString() === id)).filter(Boolean).slice(0, 3);
+
+  return res.status(200).json({ items: ordered });
+});
+
+const checkExisting = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const { url } = req.body;
+
+  const existing = await saveModel
+    .findOne({
+      user: userId,
+      url: url,
+    })
+    .select("-embedding");
+
+  res.status(200).json({
+    exists: !!existing,
+    item: existing || null,
+  });
+});
+
+export {
+  saveContent,
+  savedItems,
+  getRelatedItems,
+  getResurfaceItems,
+  checkExisting,
+  checkSimilarAI,
+};

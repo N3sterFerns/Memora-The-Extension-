@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   items: [],
   relatedItems: [],
+  resurfaceItems: [],
   loading: false,
   error: null,
 };
@@ -23,6 +24,9 @@ const saveSlice = createSlice({
     setRelatedItem: (state, action)=>{
       state.relatedItems = action.payload;
     },
+    setSmartResurface: (state, action)=>{
+      state.resurfaceItems = action.payload;
+    },
     clearRelatedItem: (state, action)=>{
       state.relatedItems = []
     },
@@ -32,5 +36,5 @@ const saveSlice = createSlice({
   },
 });
 
-export const { setSaves, addSave, setLoading,setRelatedItem,clearRelatedItem, setError } = saveSlice.actions;
+export const { setSaves, addSave, setSmartResurface, setLoading,setRelatedItem,clearRelatedItem, setError } = saveSlice.actions;
 export default saveSlice.reducer;

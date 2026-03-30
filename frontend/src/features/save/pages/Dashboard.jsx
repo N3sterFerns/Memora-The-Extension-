@@ -9,11 +9,12 @@ import DashboardHome from "../components/DashboardHome";
 import { Outlet } from "react-router";
 
 const Dashboard = () => {
-  const { getAllSavedItems } = useSave();
+  const { getAllSavedItems, getSmartResurface } = useSave();
   
 
   useEffect(() => {
     getAllSavedItems();
+    getSmartResurface()
   }, []);
 
   return (

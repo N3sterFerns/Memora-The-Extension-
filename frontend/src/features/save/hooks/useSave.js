@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
-import { clearRelatedItem, setError, setLoading, setRelatedItem, setSaves } from "../save.slice"
-import { getRelatedItems, getSavedItems } from "../services/save.service"
+import { clearRelatedItem, setError, setLoading, setRelatedItem, setSaves, setSmartResurface } from "../save.slice"
+import { getRelatedItems, getSavedItems, getSmartResurfaceItems } from "../services/save.service"
 
 
 export const useSave = ()=>{
@@ -31,9 +31,21 @@ export const useSave = ()=>{
         }finally{
             dispatch(setLoading(false))
         }
-
     }
 
 
-    return {getAllSavedItems, getAllRelatedItems}
+    const getSmartResurface = async ()=>{
+        try {
+            dispatch(setLoading(true))
+            const res = await getSmartResurfaceItems();
+            dispatch(setSmartResurface(res.items))
+        } catch (error) {
+            dispatch(setError(error))
+        }finally{
+            dispatch(setLoading(false))
+        }
+    }
+
+
+    return {getAllSavedItems, getAllRelatedItems, getSmartResurface}
 }
