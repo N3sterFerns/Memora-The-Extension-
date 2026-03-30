@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Second Brain Saver",
+  "name": "Memora",
   "version": "1.0",
   "description": "Save anything to your smart brain",
   "permissions": ["activeTab", "storage"],
@@ -17,6 +17,10 @@
     }
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": "icons/icon.png"
+  },
+  "icons": {
+    "128": "icons/icon.png"
   }
 }

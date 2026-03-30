@@ -14,6 +14,7 @@ const saveContent = asyncHandler(async (req, res) => {
 
   const text = `${meta.title} ${meta.description}`;
 
+
   const tags = await generateTags(text);
 
   const textDataForEmbedding = `
@@ -100,8 +101,12 @@ const checkSimilarAI = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Title required" });
   }
 
+  const meta = await extractMetadata(url)
+
+
   const textDataForEmbedding = `
-      Title: ${title}
+      Title: ${meta.title}
+      Description: ${meta.description}
       URL: ${url}
     `;
 
@@ -113,12 +118,12 @@ const checkSimilarAI = asyncHandler(async (req, res) => {
 
   const result = await index.namespace(userId.toString()).query({
     vector: Array.from(embedding).map(Number),
-    topK: 5,
+    topK: 10,
     includeMetadata: true,
   });
 
   const matches = result.matches
-    .filter((match) => match.score > 0.75)
+    .filter((match) => match.score > 0.78)
     .map((match) => ({
       id: match.id,
       title: match.metadata.title,
@@ -126,8 +131,9 @@ const checkSimilarAI = asyncHandler(async (req, res) => {
       score: match.score,
     }));
 
+
   return res.status(200).json({
-    matches: matches[0],
+    matches: matches[0] || null,
     isSimilar: matches.length > 0,
   });
 });
