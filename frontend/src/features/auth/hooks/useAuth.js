@@ -30,8 +30,11 @@ export const useAuth = ()=>{
             dispatch(setUser(res.user));
 
             const token = res.token;
+
             if(window.chrome){
-                chrome.runtime.sendMessage({type: "SET_TOKEN", token}, "*")
+                console.log(token, "inside")
+                // chrome.runtime.sendMessage({type: "SET_TOKEN", token})
+                window.postMessage({type: "SET_TOKEN", token}, "*")
             }
 
             toast.success("Logged In Successfully.")
