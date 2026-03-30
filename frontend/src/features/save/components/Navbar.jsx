@@ -53,7 +53,7 @@ const Navbar = () => {
 
       <div className={`mobile-drawer ${menuOpen ? "open" : ""}`}>
         <div className="mobile-drawer__header">
-          <span>The Curator</span>
+          <span>Memora</span>
           <button onClick={() => setMenuOpen(false)}>
             <span className="material-symbols-outlined">close</span>
           </button>
