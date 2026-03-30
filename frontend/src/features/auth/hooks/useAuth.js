@@ -31,9 +31,7 @@ export const useAuth = ()=>{
 
             const token = res.token;
             if(window.chrome){
-                chrome.runtime.sendMessage(import.meta.env.VITE_EXTENSION_ID, 
-                    {type: "SET_TOKEN", token},
-                )
+                chrome.runtime.sendMessage({type: "SET_TOKEN", token}, "*")
             }
 
             toast.success("Logged In Successfully.")
