@@ -9,8 +9,6 @@ import mongoose from "mongoose";
 const saveContent = asyncHandler(async (req, res) => {
   const { url, title } = req.body;
   const userId = req.user._id;
-
-  console.log("Stage 1")
   
   const meta = await extractMetadata(url);
   
@@ -38,7 +36,6 @@ const saveContent = asyncHandler(async (req, res) => {
     embedding: embedding,
   });
   
-  console.log("Stage 2")
   await index.namespace(userId.toString()).upsert({
     records: [
       {

@@ -19,7 +19,7 @@ const ItemDetails = () => {
     const handleDeleteItem = async (id)=>{
       await deleteItem(id)
       await getAllSavedItems()
-      await getAllRelatedItems()
+      await getAllRelatedItems(id)
       await getSmartResurface()
       navigate("/dashboard")
 

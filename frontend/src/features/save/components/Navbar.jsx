@@ -24,9 +24,9 @@ const Navbar = () => {
             <a href="#" className="active">
               Dashboard
             </a>
-            <a href="#">Content</a>
             <a href="#">Analytics</a>
-            <a href="#">Media</a>
+            {/* <a href="#">Content</a>
+            <a href="#">Media</a> */}
           </nav>
 
           <div className="top-nav__actions">
