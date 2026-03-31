@@ -23,6 +23,7 @@ const DashboardHome = () => {
       if (filter === "all") return true;
       return item.type === filter;
     });
+    
 
   return (
     <main className="main">

@@ -34,3 +34,9 @@ export const getSmartResurfaceItems = async ()=>{
     const res = await axiosInstance.get("/api/save/smart-resurface")
     return res.data;
 }
+
+
+export const deleteItems = async (id)=>{
+    const res = await axiosInstance.delete(`/api/save/delete/${id}`)
+    return res.data
+}

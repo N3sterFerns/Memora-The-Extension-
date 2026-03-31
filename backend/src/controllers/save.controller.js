@@ -10,22 +10,23 @@ const saveContent = asyncHandler(async (req, res) => {
   const { url, title } = req.body;
   const userId = req.user._id;
 
+  console.log("Stage 1")
+  
   const meta = await extractMetadata(url);
-
+  
   const text = `${meta.title} ${meta.description}`;
-
-
+  
   const tags = await generateTags(text);
-
+  
   const textDataForEmbedding = `
-          Title: ${meta.title}
-          Description: ${meta.description}
-          Tags: ${tags.join(", ")}
-          URL: ${url}
-      `;
-
+  Title: ${meta.title}
+  Description: ${meta.description}
+  Tags: ${tags.join(", ")}
+  URL: ${url}
+  `;
+  
   const embedding = await generateEmbeddings(textDataForEmbedding);
-
+  
   const newSave = await saveModel.create({
     url: url,
     title: meta.title,
@@ -36,7 +37,8 @@ const saveContent = asyncHandler(async (req, res) => {
     user: userId,
     embedding: embedding,
   });
-
+  
+  console.log("Stage 2")
   await index.namespace(userId.toString()).upsert({
     records: [
       {
@@ -101,8 +103,7 @@ const checkSimilarAI = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Title required" });
   }
 
-  const meta = await extractMetadata(url)
-
+  const meta = await extractMetadata(url);
 
   const textDataForEmbedding = `
       Title: ${meta.title}
@@ -131,7 +132,6 @@ const checkSimilarAI = asyncHandler(async (req, res) => {
       score: match.score,
     }));
 
-
   return res.status(200).json({
     matches: matches[0] || null,
     isSimilar: matches.length > 0,
@@ -144,7 +144,6 @@ const getResurfaceItems = asyncHandler(async (req, res) => {
   const latestItem = await saveModel
     .findOne({ user: userId })
     .sort({ created: -1 });
-
 
   if (!latestItem || !latestItem.embedding) {
     return res.status(200).json({ items: [] });
@@ -161,11 +160,14 @@ const getResurfaceItems = asyncHandler(async (req, res) => {
     .map((m) => m.id);
 
   const items = await saveModel.find({
-    _id: {$in: ids},
-    user: userId
-  })
+    _id: { $in: ids },
+    user: userId,
+  });
 
-  const ordered = ids.map((id)=> items.find((i)=> i._id.toString() === id)).filter(Boolean).slice(0, 3);
+  const ordered = ids
+    .map((id) => items.find((i) => i._id.toString() === id))
+    .filter(Boolean)
+    .slice(0, 3);
 
   return res.status(200).json({ items: ordered });
 });
@@ -187,6 +189,23 @@ const checkExisting = asyncHandler(async (req, res) => {
   });
 });
 
+const deleteItem = asyncHandler(async (req, res) => {
+  const itemId = req.params.id;
+  const userId = req.user._id;
+
+  if (!mongoose.Types.ObjectId.isValid(itemId)) {
+    return res.status(400).json({ message: "Invalid ID" });
+  }
+
+  await saveModel.findOneAndDelete({
+    _id: itemId,
+  });
+
+  await index.namespace(userId.toString()).deleteOne({ id: itemId });
+
+  res.status(200).json({ message: "Deleted successfully" });
+});
+
 export {
   saveContent,
   savedItems,
@@ -194,4 +213,5 @@ export {
   getResurfaceItems,
   checkExisting,
   checkSimilarAI,
+  deleteItem,
 };

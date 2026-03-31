@@ -11,11 +11,19 @@ const ItemDetails = () => {
     const navigate = useNavigate()
     const {id} = useParams()
     const location = useLocation()
-    const {getAllRelatedItems} = useSave()
+    const {getAllRelatedItems, deleteItem, getAllSavedItems, getSmartResurface} = useSave()
     const relatedItems = useSelector((state)=> state.save.relatedItems)
     const user = useSelector((state)=> state.auth.user.email)
     const currentItem = location?.state;
 
+    const handleDeleteItem = async (id)=>{
+      await deleteItem(id)
+      await getAllSavedItems()
+      await getAllRelatedItems()
+      await getSmartResurface()
+      navigate("/dashboard")
+
+    }
 
     useEffect(()=>{
         getAllRelatedItems(id)
@@ -31,7 +39,7 @@ const ItemDetails = () => {
             <span onClick={()=> navigate("/dashboard")} >Back</span>
           </button>
           <button className="delete">
-            <span className="material-symbols-outlined">delete</span>
+            <span onClick={()=>handleDeleteItem(currentItem._id)} className="material-symbols-outlined">delete</span>
           </button>
         </div>
       </div>

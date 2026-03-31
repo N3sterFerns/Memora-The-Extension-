@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { checkExisting, checkSimilarAI, getRelatedItems, getResurfaceItems, saveContent, savedItems } from "../controllers/save.controller.js"
+import { checkExisting, checkSimilarAI, deleteItem, getRelatedItems, getResurfaceItems, saveContent, savedItems } from "../controllers/save.controller.js"
 import { authVerify } from "../middlewares/authVerify.middleware.js"
 
 const saveRouter = Router()
@@ -12,6 +12,7 @@ saveRouter.post("/save/check-existing", authVerify, checkExisting)
 saveRouter.post("/save/check-similar-ai", authVerify, checkSimilarAI)
 
 saveRouter.get("/save/:id",authVerify, getRelatedItems)
+saveRouter.delete("/save/delete/:id",authVerify, deleteItem)
 
 export default saveRouter
 
