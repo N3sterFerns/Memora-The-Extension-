@@ -32,14 +32,11 @@ export const useAuth = ()=>{
             const token = res.token;
 
             if(window.chrome){
-                console.log(token, "inside")
-                // chrome.runtime.sendMessage({type: "SET_TOKEN", token})
                 window.postMessage({type: "SET_TOKEN", token}, "*")
             }
 
             toast.success("Logged In Successfully.")
         } catch (error) {
-            // toast.error(error.response?.data?.msg || "Invalid Credentials")
             dispatch(setError(error.response?.data?.msg || "Login Failed"))
         }finally{
             dispatch(setLoading(false))
@@ -49,7 +46,15 @@ export const useAuth = ()=>{
     const getUser = async ()=>{
         try {
             const res = await getMe()
-            dispatch(setUser(res.user));
+            dispatch(setUser(res.user))
+            
+            const token = localStorage.getItem("token");
+
+            if(window.chrome && token){
+                console.log(token, "inside")
+                window.postMessage({type: "SET_TOKEN", token}, "*")
+            }
+
         } catch (error) {
             dispatch(setError(error.response?.data?.msg || "Fetcheing User Failed"))
         }finally{
