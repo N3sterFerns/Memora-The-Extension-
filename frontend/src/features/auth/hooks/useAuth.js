@@ -51,7 +51,6 @@ export const useAuth = ()=>{
             const token = localStorage.getItem("token");
 
             if(window.chrome && token){
-                console.log(token, "inside")
                 window.postMessage({type: "SET_TOKEN", token}, "*")
             }
 
