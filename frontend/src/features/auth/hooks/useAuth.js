@@ -1,7 +1,7 @@
 import { getMe, login, register } from "../services/auth.service";
 import {useDispatch} from "react-redux"
 import {toast} from "react-toastify"
-import {setLoading, setUser, setError} from "../auth.slice"
+import {setLoading, setUser, setError, setLogOut} from "../auth.slice"
 
 export const useAuth = ()=>{
 
@@ -49,17 +49,26 @@ export const useAuth = ()=>{
             dispatch(setUser(res.user))
             
             const token = localStorage.getItem("token");
-
+            
             if(window.chrome && token){
                 window.postMessage({type: "SET_TOKEN", token}, "*")
             }
-
+            
         } catch (error) {
             dispatch(setError(error.response?.data?.msg || "Fetcheing User Failed"))
         }finally{
             dispatch(setLoading(false))
         }
     }
+    
+    const logOut = ()=>{
+        const token = localStorage.getItem("token");
+        if(token){
+            localStorage.removeItem("token")
+        }
+        dispatch(setLogOut())
+        toast.success("Logged Out Successfully")
+    }
 
-    return {handleRegister, handleLogin, getUser}
+    return {handleRegister, handleLogin, getUser, logOut}
 }

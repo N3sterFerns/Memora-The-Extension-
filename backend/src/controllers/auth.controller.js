@@ -15,19 +15,10 @@ const register = asyncHandler(async (req, res) => {
     password,
   });
 
-  const token = await user.generateToken(user._id);
 
   const userObj = user.toObject();
   delete userObj.password;
 
-  const options = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-    maxAge: 3 * 24 * 60 * 60 * 1000,
-  }
-
-  // res.cookie("token", token, options);
 
   return res
     .status(201)
@@ -56,15 +47,6 @@ const login = asyncHandler(async (req, res) => {
 
   const token = await userExist.generateToken(userExist._id);
 
-
-  const options = {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    maxAge: 3 * 24 * 60 * 60 * 1000,
-  }
-
-  // res.cookie("token", token, options);
 
   return res
     .status(200)

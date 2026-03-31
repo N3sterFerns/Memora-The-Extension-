@@ -34,21 +34,19 @@ const Register = () => {
         {/* LEFT PANEL */}
         <div className="left-panel">
           <div>
-            <h2>Elevate your content creation journey.</h2>
+            <h2>Build Your Second Brain.</h2>
             <p>
-              Join thousands of creators building modern editorial experiences.
+              Start capturing ideas, articles, and insights from across the
+              internet and let Memora organize and resurface them when they
+              matter most.
             </p>
-          </div>
-
-          <div>
-            <p>✨ 2,400+ creators joined</p>
           </div>
         </div>
 
         {/* RIGHT PANEL */}
         <div className="right-panel">
-          <h3>Create Account</h3>
-          <p>Start your journey in seconds 🚀</p>
+          <h3>Create Your Memora</h3>
+          <p>Your knowledge, organized and always within reach</p>
 
           <form onSubmit={handleRegisterSubmit} className="form">
             {/* Email */}
@@ -101,15 +99,14 @@ const Register = () => {
             </button>
 
             {/* Divider */}
-            <div className="divider">
+            {/* <div className="divider">
               <span>Or continue with</span>
             </div>
 
-            {/* Social */}
             <div className="social">
               <button type="button">Google</button>
               <button type="button">Apple</button>
-            </div>
+            </div> */}
           </form>
 
           {/* Footer */}
@@ -118,7 +115,6 @@ const Register = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

@@ -1,6 +1,17 @@
 import React from "react";
+import { useAuth } from "../../auth/hooks/useAuth";
+import { useNavigate } from "react-router";
 
 const SideBar = () => {
+
+  const {logOut} = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = ()=>{
+    logOut()
+    navigate("/login")
+  }
+
   return (
     <aside className="side-nav">
       <div className="side-nav__inner">
@@ -20,10 +31,10 @@ const SideBar = () => {
             <span>Overview</span>
           </a>
           
-          <a href="#">
+          {/* <a href="#">
             <span className="material-symbols-outlined">settings</span>
             <span>Settings</span>
-          </a>
+          </a> */}
         </nav>
       </div>
 
@@ -32,7 +43,7 @@ const SideBar = () => {
           <span className="material-symbols-outlined">help</span>
           <span>Help Center</span>
         </a>
-        <a href="#" className="danger">
+        <a onClick={handleLogout} href="#" className="danger">
           <span className="material-symbols-outlined">logout</span>
           <span>Logout</span>
         </a>

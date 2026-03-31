@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const Login = () => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const user = useSelector((state)=> state.auth.user)
+  const user = useSelector((state) => state.auth.user);
 
   const [handleLoginDetails, sethandleLoginDetails] = useState({
     email: "",
@@ -24,7 +24,7 @@ const Login = () => {
     const success = await handleLogin(handleLoginDetails);
     setLoginLoading(false);
 
-    if(success){
+    if (success) {
       navigate("/dashboard");
     }
     sethandleLoginDetails({
@@ -33,8 +33,8 @@ const Login = () => {
     });
   };
 
-  if(user){
-    return <Navigate to={"/dashboard"} replace/>
+  if (user) {
+    return <Navigate to={"/dashboard"} replace />;
   }
 
   return (
@@ -43,18 +43,18 @@ const Login = () => {
         {/* LEFT PANEL */}
         <div className="left-panel">
           <div>
-            <h2>Elevate your content creation journey.</h2>
+            <h2>Your Second Brain Starts Here.</h2>
             <p>
-              Join thousands of creators building modern editorial experiences.
+              Capture ideas, articles, and insights from anywhere and let Memora
+              organize, connect, and resurface them when you need them most.
             </p>
           </div>
-
         </div>
 
         {/* RIGHT PANEL */}
         <div className="right-panel">
-          <h3>Login Account</h3>
-          <p>Start your journey in seconds </p>
+          <h3>Welcome Back</h3>
+          <p>Log in to access your saved knowledge</p>
 
           <form onSubmit={handleLogins} className="form">
             {/* Email */}
@@ -102,29 +102,27 @@ const Login = () => {
                   </path>
                 </svg>
               ) : (
-                <span>Log Account</span>
+                <span>Log Memora</span>
               )}
             </button>
 
             {/* Divider */}
-            <div className="divider">
+            {/* <div className="divider">
               <span>Or continue with</span>
             </div>
 
-            {/* Social */}
             <div className="social">
               <button type="button">Google</button>
               <button type="button">Apple</button>
-            </div>
+            </div> */}
           </form>
 
           {/* Footer */}
           <div className="footer">
-            Already have an account? <Link to={"/register"}>Create Account</Link>
+            Don't have an account? <Link to={"/register"}>Create Account</Link>
           </div>
         </div>
       </div>
-
     </div>
   );
 };
