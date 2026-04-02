@@ -35,6 +35,11 @@ export const getSmartResurfaceItems = async ()=>{
     return res.data;
 }
 
+export const getGraphAnalytics = async ()=>{
+    const res = await axiosInstance.get("/api/save/graph")
+    return res.data;
+}
+
 
 export const deleteItems = async (id)=>{
     const res = await axiosInstance.delete(`/api/save/delete/${id}`)

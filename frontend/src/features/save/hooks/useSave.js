@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { clearRelatedItem, setError, setLoading, setRelatedItem, setSaves, setSmartResurface } from "../save.slice"
-import { deleteItems, getRelatedItems, getSavedItems, getSmartResurfaceItems } from "../services/save.service"
+import { deleteItems, getGraphAnalytics, getRelatedItems, getSavedItems, getSmartResurfaceItems } from "../services/save.service"
 
 
 export const useSave = ()=>{
@@ -57,6 +57,11 @@ export const useSave = ()=>{
         }
     }
 
+    const getGraphData = async ()=>{
+        const res = await getGraphAnalytics();
+        return res
+    }
 
-    return {getAllSavedItems, getAllRelatedItems, getSmartResurface, deleteItem}
+
+    return {getAllSavedItems, getAllRelatedItems, getSmartResurface,getGraphData, deleteItem}
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,12 +22,8 @@ const Navbar = () => {
           <span className="top-nav__brand">Memora</span>
 
           <nav className="top-nav__nav desktop-only">
-            <a href="#" className="active">
-              Dashboard
-            </a>
-            <a href="#">Analytics</a>
-            {/* <a href="#">Content</a>
-            <a href="#">Media</a> */}
+            <Link className="active" to={"/dashboard"}>Dashboard</Link>
+            <Link to={"/dashboard/graph"}>Analytics</Link>
           </nav>
 
           <div className="top-nav__actions">

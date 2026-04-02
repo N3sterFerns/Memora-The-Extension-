@@ -5,6 +5,7 @@ import { extractMetadata } from "../services/metadataService.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { index } from "../config/pineCone.js";
 import mongoose from "mongoose";
+import { cosineSimilarity } from "../utils/cosine.js";
 
 const saveContent = asyncHandler(async (req, res) => {
   const { url, title } = req.body;
@@ -203,6 +204,79 @@ const deleteItem = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Deleted successfully" });
 });
 
+
+const getGraphData = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+
+  const items = await saveModel.find({user: userId}).limit(30).lean()
+
+  const nodes = items.map((item)=>({
+    id: item._id.toString(),
+    title: item.title,
+    group: item?.tags?.[0] || "other"
+  }))
+
+  const links = []
+  const linkSet = new Set()
+
+  
+  for(const item of items){
+    if(!item.embedding || item.embedding.length === 0) continue;
+    
+    const result = await index.namespace(userId.toString()).query({
+      vector: item.embedding,
+      topK: 6,
+      includeMetadata: true
+    })
+    
+    result.matches.forEach((match)=>{
+      if(match.id !== item._id.toString() &&  match.score > 0.75 && items.find(i => i._id.toString() === match.id)){
+        const key = [item._id.toString(), match.id].sort().join("-")
+
+        if(!linkSet.has(key)){
+          linkSet.add(key)
+          links.push({
+            source: item._id.toString(),
+            target: match.id,
+            strength: match.score
+          })
+        }
+      }
+    })
+  }
+
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i + 1; j < items.length; j++) {
+      const a = items[i];
+      const b = items[j];
+
+      if (!a.tags || !b.tags) continue;
+
+      const commonTags = a.tags.filter(tag => b.tags.includes(tag));
+
+      if (commonTags.length > 0) {
+        const key = [a._id.toString(), b._id.toString()].sort().join("-");
+
+        if (!linkSet.has(key)) {
+          linkSet.add(key);
+
+          links.push({
+            source: a._id.toString(),
+            target: b._id.toString(),
+            strength: 0.7 + (commonTags.length * 0.05)
+          });
+        }
+      }
+    }
+  }
+
+  
+
+
+  res.status(200).json({ nodes, links});
+});
+
 export {
   saveContent,
   savedItems,
@@ -211,4 +285,5 @@ export {
   checkExisting,
   checkSimilarAI,
   deleteItem,
+  getGraphData
 };
