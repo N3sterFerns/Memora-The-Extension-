@@ -6,11 +6,11 @@ import { deleteItems, getGraphAnalytics, getRelatedItems, getSavedItems, getSmar
 export const useSave = ()=>{
     const dispatch = useDispatch()
 
-    const getAllSavedItems = async ()=>{
+    const getAllSavedItems = async (page=1)=>{
         try {
            dispatch(setLoading(true))
-           const res = await getSavedItems()
-           dispatch(setSaves(res.items))
+           const res = await getSavedItems(page, 5)
+           dispatch(setSaves(res))
            
         } catch (error) {
             dispatch(setError(error))
@@ -38,7 +38,10 @@ export const useSave = ()=>{
         try {
             dispatch(setLoading(true))
             const res = await getSmartResurfaceItems();
-            dispatch(setSmartResurface(res.items))
+            dispatch(setSmartResurface({
+                timeBased: res.timeBased || [],
+                relevanceBased: res.relevanceBased || []
+            }))
         } catch (error) {
             dispatch(setError(error))
         }finally{

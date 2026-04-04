@@ -3,7 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   items: [],
   relatedItems: [],
-  resurfaceItems: [],
+  resurfaceItems: {
+    timeBased: [],
+    relevanceBased: [],
+  },
+  page: 1,
+  totalPages: 1,
   loading: false,
   error: null,
 };
@@ -13,7 +18,9 @@ const saveSlice = createSlice({
   initialState,
   reducers: {
     setSaves: (state, action) => {
-      state.items = action.payload;
+      state.items = action.payload.items;
+      state.page = action.payload.page;
+      state.totalPages = action.payload.totalPages;
     },
     addSave: (state, action) => {
       state.items.unshift(action.payload);

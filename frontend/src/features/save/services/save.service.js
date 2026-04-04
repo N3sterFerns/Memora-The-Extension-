@@ -18,8 +18,8 @@ axiosInstance.interceptors.request.use((config) => {
 
 
 
-export const getSavedItems = async ()=>{
-    const res = await axiosInstance.get("/api/save/all")
+export const getSavedItems = async (page= 1, limit=5)=>{
+    const res = await axiosInstance.get(`/api/save/all?page=${page}&limit=${limit}`)
     return res.data;
 }
 
@@ -30,8 +30,13 @@ export const getRelatedItems = async (id)=>{
 }
 
 
+// export const getSmartResurfaceItems = async ()=>{
+//     const res = await axiosInstance.get("/api/save/smart-resurface")
+//     return res.data;
+// }
+
 export const getSmartResurfaceItems = async ()=>{
-    const res = await axiosInstance.get("/api/save/smart-resurface")
+    const res = await axiosInstance.get("/api/save/resurface/mixed")
     return res.data;
 }
 

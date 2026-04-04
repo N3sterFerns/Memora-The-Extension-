@@ -23,6 +23,10 @@ const DashboardHome = () => {
       if (filter === "all") return true;
       return item.type === filter;
     });
+  
+  const page = useSelector((state)=> state.save.page)
+  const totalPages = useSelector((state)=> state.save.totalPages)
+  const {getAllSavedItems} = useSave()
     
 
   return (
@@ -81,7 +85,7 @@ const DashboardHome = () => {
         <div className="content-section__header">
           <div className="content-section__header-left">
             <h2>Recent Saved</h2>
-            <span className="badge">12 New</span>
+            <span className="badge">{filteredItems.length} New</span>
           </div>
           <div className="content-section__header-views">
             <button className="active">
@@ -89,24 +93,38 @@ const DashboardHome = () => {
             </button>
           </div>
         </div>
-        <ItemsContainer items={filteredItems} />
+        {filteredItems.length > 0 ? (
+          <ItemsContainer  items={filteredItems} />
+        ): (
+          <h1>No Saved Items yet</h1>
+        )}
       </div>
 
       
+      {filteredItems.length > 0 && (
 
-      <div className="pagination">
-        <button className="pagination__btn pagination__btn--nav">
-          <span className="material-symbols-outlined">chevron_left</span>
-        </button>
-        <button className="pagination__btn pagination__btn--active">1</button>
-        <button className="pagination__btn pagination__btn--page">2</button>
-        <button className="pagination__btn pagination__btn--page">3</button>
-        <span className="pagination__ellipsis">...</span>
-        <button className="pagination__btn pagination__btn--page">12</button>
-        <button className="pagination__btn pagination__btn--nav">
-          <span className="material-symbols-outlined">chevron_right</span>
-        </button>
-      </div>
+        <div className="pagination">
+          <button disabled={page === 1} onClick={()=> getAllSavedItems(page - 1)} className="pagination__btn pagination__btn--nav">
+            <span className="material-symbols-outlined">chevron_left</span>
+          </button>
+
+          {Array.from({length: totalPages}, (_, i)=>{
+            const pageNum = i+1
+            return (
+              <button key={pageNum} onClick={()=> getAllSavedItems(pageNum)}  className={`pagination__btn ${page === pageNum ? "pagination__btn--active": "pagination__btn--page"} `}>{pageNum}</button>
+            )
+
+          })}
+          <span className="pagination__ellipsis">...</span>
+
+          <button disabled={page === totalPages} onClick={()=> {
+            getAllSavedItems(page + 1)
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }} className="pagination__btn pagination__btn--nav">
+            <span className="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+      )} 
     </main>
   );
 };

@@ -7,9 +7,9 @@ const ItemsContainer = ({items}) => {
 
 
   return (
-    <div className="content-section__list">
+    <div  className="content-section__list">
         {items?.map((item)=>(
-            <Link to={`/dashboard/save/${item._id}`} state={item}><Items key={item._id} item={item} /></Link>
+            <Link key={item._id} to={`/dashboard/save/${item._id}`} state={item}><Items key={item._id} item={item} /></Link>
         ))}
     </div>
   );

@@ -29,6 +29,8 @@ const saveSchema = mongoose.Schema(
   { timestamps: true },
 );
 
+saveSchema.index({ user: 1, createdAt: -1 });
+
 const saveModel = mongoose.model("save", saveSchema);
 
 export { saveModel };

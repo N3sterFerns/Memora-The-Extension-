@@ -55,11 +55,24 @@ const saveContent = asyncHandler(async (req, res) => {
 });
 
 const savedItems = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+
+  const skip = (page - 1) * limit;
+
+  const total = await saveModel.countDocuments({ user: userId });
+
   const allItems = await saveModel
     .find({ user: req.user._id })
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
 
-  res.status(200).json({ items: allItems });
+  res.status(200).json({ items: allItems, page, 
+    totalPages: Math.ceil(total / limit),
+    totalItems: total
+   });
 });
 
 const getRelatedItems = asyncHandler(async (req, res) => {
@@ -169,6 +182,78 @@ const getResurfaceItems = asyncHandler(async (req, res) => {
 
   return res.status(200).json({ items: ordered });
 });
+
+
+const getMixedResurfaced = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const now = new Date();
+
+
+  const ranges = [7, 30];
+  const timeBased = [];
+
+  for (const days of ranges) {
+    const from = new Date(now - days * 86400000);
+    const to = new Date(now - (days - 2) * 86400000);
+
+    const item = await saveModel
+      .findOne({
+        user: userId,
+        createdAt: { $gte: from, $lte: to },
+      })
+      .sort({ createdAt: -1 }).select("-embedding")
+
+    if (item) {
+      timeBased.push({
+        type: `${days}_days`,
+        item,
+      });
+    }
+  }
+
+
+  const recentItems = await saveModel
+    .find({ user: userId })
+    .sort({ createdAt: -1 })
+    .limit(3);
+
+  let relevanceBased = [];
+
+  if (recentItems.length) {
+    const seed =
+      recentItems[Math.floor(Math.random() * recentItems.length)];
+
+    const result = await index.namespace(userId.toString()).query({
+      vector: seed.embedding,
+      topK: 8,
+      includeMetadata: true,
+    });
+
+    const ids = result.matches
+      .filter(
+        (m) =>
+          m.id !== seed._id.toString() &&
+          m.score > 0.82
+      )
+      .map((m) => m.id);
+
+    const items = await saveModel.find({
+      _id: { $in: ids },
+      user: userId,
+    }).select("-embedding")
+
+    relevanceBased = ids
+      .map((id) => items.find((i) => i._id.toString() === id))
+      .filter(Boolean)
+      .slice(0, 4);
+  }
+
+  res.status(200).json({
+    timeBased,
+    relevanceBased,
+  });
+});
+
 
 const checkExisting = asyncHandler(async (req, res) => {
   const userId = req.user._id;
@@ -285,5 +370,6 @@ export {
   checkExisting,
   checkSimilarAI,
   deleteItem,
-  getGraphData
+  getGraphData,
+  getMixedResurfaced
 };

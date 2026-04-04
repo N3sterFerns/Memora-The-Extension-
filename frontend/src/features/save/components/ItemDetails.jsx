@@ -98,7 +98,7 @@ const ItemDetails = () => {
         <div className="grid">
 
             {relatedItems?.map((related)=>(
-                <Link state={related} to={`/dashboard/save/${related._id}`} className="card">
+                <Link key={related._id} state={related} to={`/dashboard/save/${related._id}`} className="card">
                     <div className="image-wrapper">
                     <img
                         src={related?.image}
