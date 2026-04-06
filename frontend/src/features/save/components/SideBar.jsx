@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth } from "../../auth/hooks/useAuth";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 
 const SideBar = () => {
 
@@ -9,7 +9,7 @@ const SideBar = () => {
 
   const handleLogout = ()=>{
     logOut()
-    navigate("/login")
+    navigate("/", { replace: true })
   }
 
   return (

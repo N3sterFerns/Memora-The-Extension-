@@ -28,6 +28,9 @@ const Homepage = () => {
         <div className="container">
           <div className="left">
             <span className="logo">Memora</span>
+            <div className="beta-con">
+              <span className="beta">Beta</span>
+            </div>
           </div>
 
           <div className="right">

@@ -21,6 +21,7 @@ const Navbar = () => {
 
           <span className="top-nav__brand">Memora</span>
 
+
           <nav className="top-nav__nav desktop-only">
             <Link className="active" to={"/dashboard"}>Dashboard</Link>
             <Link to={"/dashboard/graph"}>Analytics</Link>
@@ -50,19 +51,15 @@ const Navbar = () => {
 
       <div className={`mobile-drawer ${menuOpen ? "open" : ""}`}>
         <div className="mobile-drawer__header">
-          <span>Memora</span>
+            <span>Memora</span>
           <button onClick={() => setMenuOpen(false)}>
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
 
         <nav className="mobile-drawer__nav">
-          <a href="#" className="active">
-            Dashboard
-          </a>
-          <a href="#">Content</a>
-          <a href="#">Analytics</a>
-          <a href="#">Media</a>
+          <Link className="active" to={"/dashboard"}>Dashboard</Link>
+          <Link to={"/dashboard/graph"}>Analytics</Link>
         </nav>
       </div>
     </>
